@@ -1,5 +1,6 @@
 ---
-title: WGS: Microbes
+title: HackBio Internship: Stage 1 
+subtitle: WGS_Microbes
 author: Chloe Nichole Calica
 date: September 15, 2025
 ---
