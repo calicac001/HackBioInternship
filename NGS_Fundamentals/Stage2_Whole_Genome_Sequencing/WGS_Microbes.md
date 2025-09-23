@@ -1,26 +1,21 @@
 ---
-title: HackBio Internship: Stage 1 
-subtitle: WGS_Microbes
+title: HackBio Internship - Stage 1 
+subtitle: WGS - Microbes
 author: Chloe Nichole Calica
 date: September 15, 2025
 ---
+
 # Project Background 
 
 ## South African Polony
-<p> 
 In early 2017, South Africa faced a public health crisis that would become the world's largest recorded outbreak for a particular infection. Doctors at Chris Hani and Steve Biko academic hospitals noticed an alarming spike in neonatal infections, a clue that something sinister was spreading through the food supply.
-</p>
 
-<p>
 By March 2018, the National Institute for Communicable Diseases (NICD) had reported 978 laboratory-confirmed cases, with 183 deaths a case fatality rate of 27%, which was devastatingly high for a foodborne illness. The majority of cases were concentrated in Gauteng (59%), Western Cape (12%), and KwaZulu-Natal (7%), with vulnerable groups like neonates, pregnant women, the elderly, and immunocompromised (especially HIV) patients were hit hardest.
-</p>
 
-<p>
 Interviews with affected patients pointed to processed cold meats, particularly polony, as the likely culprit, but the exact source remained elusive. One common thing among all the interviewed patients is that they somehow traced back to polony bought from Enterprise Foods facility in Polokwane. This outbreak wasn’t just a national issue—products were exported to 15 African countries, raising fears of a regional spread. The stakes were high: how could scientists confirm the pathogen’s identity and uncover its resistance profile to guide treatment and prevent future outbreaks? The answer lies in the power of whole-genome sequencing (WGS), a tool that can unlock the genetic secrets of these deadly bacteria. As a team of bioinformatics students, you’re tasked with a critical mission: analyze WGS data from 100+ Bacterial isolates collected during the 2017–2018 South African outbreak.
-</p>
 
 ## Goals
-<p> Your goal is to: </p>
+Your goal is to:
 
 * Confirm the identity of the organism,
 * Determine the antimicrobial resistance (AMR) profile of these pathogens.
@@ -28,8 +23,8 @@ Interviews with affected patients pointed to processed cold meats, particularly 
 * Suggest antibiotics/treatment options that could be used managing the cases
 
 # Methods
-<p> This section outlines the steps performed in order to obtain, process, and analyze the given WGS data.
-</p>
+This section outlines the steps performed in order to obtain, process, and analyze the given WGS data.
+
 
 ## Dataset 
 * WGS data has been provided from 100 bacterial isolates.
