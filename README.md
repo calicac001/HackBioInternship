@@ -37,16 +37,13 @@ Explore how **whole genome sequencing (WGS)** drives discoveries in genetics, pe
 ## 📂 Repository Structure
 HackBioInternship/
 
+```
 ├── NGS_Fundamentals/
-
 │ ├── Stage1_Linux_Bash/
-
 │ ├── Stage2_RNA_Sequencing/
-
 │ └── Stage3_Whole_Genome_Sequencing/
-
 └── README.md
-
+```
 
 Each stage contains scripts, notes, and results generated during the internship.  
 
