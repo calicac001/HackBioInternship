@@ -362,9 +362,9 @@ for dir in "$ASSEMBLY_DIR"/*; do
         header = lines[1];
         seq = "";
         for(i=2; i<=length(lines); i++) seq = seq lines[i];
-        if(length(seq)>1000) seq = substr(seq,1,1000);
-        print ">" header "\n" seq "\n";
-        exit
+            if(length(seq)>1000) seq = substr(seq,1,1000);
+            print ">" header "\n" seq "\n";
+            exit
      }' "$contigs" > "$query"
 
     # quick sanity check: ensure query was written and non-empty
@@ -453,7 +453,7 @@ echo "[DONE] Frequency summary written to $FREQ_FILE"
 ```
 
 ## AMR/Toxin Gene Screening
-Antimicrobial resistance (AMR) and toxin-associated genes were screened using ABRicate. ABRicate allows rapid detection of known resistance and virulence determinants by aligning assembled contigs against curated gene databases. For each genome assembly, ABRicate was run against both the ResFinder database (for AMR genes) and the VFDB database (for virulence and toxin-associated genes). 
+Antimicrobial resistance (AMR) and toxin-associated genes were screened using ABRicate. ABRicate allows rapid detection of known resistance and virulence determinants by aligning assembled contigs against curated gene databases. For each genome assembly, ABRicate was run against both the NCBI database (for AMR genes) and the VFDB database (for virulence and toxin-associated genes). 
 
 > run_abricate.sh
 ```
@@ -549,37 +549,43 @@ echo "Done! Results saved to $AMR_OUT and $VIR_OUT"
 # Results
 
 ## Identifying the Organism
-Preliminary species identification was performed using BLAST searches of the longest contig from each sample. To accommodate BLAST query limits and reduce processing time, sequences were restricted to a maximum length of 1,000 bp. Of the 50 samples in the dataset, 22 have been processed to date. (Still waiting on other 28 to finish running)
-
-Among these, 21/22 (95.5%) were identified as Listeria monocytogenes, with all matches returning an e-value of 0.0, indicating highly confident assignments. Notably, one sample (SRR27013245) was classified as Brucella anthropi. This unexpected result warrants further attention to determine whether it reflects contamination, mislabeling, or the presence of a genuine secondary species in the datase
+Preliminary species identification was performed using BLAST searches of the longest contig from each sample. To accommodate BLAST query limits and reduce processing time, sequences were restricted to a maximum length of 1,000 bp. Of the 50 samples in the dataset, 49 (98%) were identified as Listeria monocytogenes, with all matches returning an e-value of 0.0, indicating highly confident assignments. Notably, one sample (SRR27013245) was classified as Brucella anthropi. This unexpected result warrants further attention to determine whether it reflects contamination, mislabeling, or the presence of a genuine secondary species in the datase
 
 ## AMR Genes
 All isolates carried fosX and lmo0919_fam, indicating ubiquitous resistance to fosfomycin. The blaOCH-5 gene was rare, detected in only one isolate, suggesting minimal beta-lactamase–mediated resistance in this dataset.
-| AMR Gene     | Prevalence (n/% of isolates) | Resistance Implications                                                       |
-| ------------ | ---------------------------- | ----------------------------------------------------------------------------- |
-| fosX         | 23 / 100%                    | Confers intrinsic resistance to fosfomycin; observed in all isolates.         |
-| lmo0919\_fam | 23 / 100%                    | Associated with fosfomycin resistance; ubiquitous in the dataset.             |
-| blaOCH-5     | 1 / 4.35%                    | Beta-lactamase gene; rare occurrence suggests minimal beta-lactam resistance. |
+| AMR Gene     | Prevalence (n/% of isolates) | Resistance Implications |
+| ------------ | ---------------------------- | ----------------------------|
+| fosX         | 50 / 100%                    | Confers intrinsic resistance to fosfomycin; observed in all isolates.         |
+| lmo0919\_fam | 50 / 100%                    | Associated with fosfomycin resistance; ubiquitous in the dataset.             |
+| blaOCH-5     | 1 / 2.00%                    | Beta-lactamase gene; rare occurrence suggests minimal beta-lactam resistance. |
 
 
 
 ## Toxin Genes
-Most isolates carried a core set of virulence genes, including actA, bsh, clpC/E/P, hly, and several adhesion factors (lap, lapB, fbpA). A subset of genes (e.g., inlB, lls operon genes) were present in fewer isolates, suggesting variable virulence potential.
+Most isolates carried a core set of virulence genes (100% of samples), including actA, bsh, clpC/E/P, hly, and several adhesion factors (lap, lapB, fbpA). Nearly all isolates also encoded additional regulatory and invasion factors such as fbpA, hpt, iap/cwhA, and prfA (98%), as well as inlA, inlC, and inlK (96%).
 
-| Number of Samples | % of Samples | Genes                                                                                                           |
-| ----------------- | ------------ | --------------------------------------------------------------------------------------------------------------- |
-| 23                | 100.00%      | actA, bsh, clpC, clpE, clpP, fbpA, hly, lap, lapB, lntA, lpeA, lplA1, lspA, mpl, oatA, pdgA, fosX, lmo0919\_fam |
-| 22                | 95.65%       | iap/cwhA, inlK, prfA                                                                                            |
-| 21                | 91.30%       | inlA, inlC                                                                                                      |
-| 18                | 78.26%       | inlB                                                                                                            |
-| 17                | 73.91%       | gtcA                                                                                                            |
-| 16                | 69.57%       | llsA                                                                                                            |
-| 11                | 47.83%       | inlF, llsG, llsX                                                                                                |
-| 10                | 43.48%       | llsH                                                                                                            |
-| 5                 | 21.74%       | llsB, llsY                                                                                                      |
-| 3                 | 13.04%       | llsD                                                                                                            |
-| 2                 | 8.70%        | llsP                                                                                                            |
-| 1                 | 4.35%        | acpXL, cgs, fabZ, htrB, kdsA, kdsB, pgm, blaOCH-5                                                               |
+In contrast, a subset of genes showed variable distribution. For example, inlB (88%) and gtcA (84%) were present in most but not all isolates. Members of the lls operon were increasingly sporadicwhile rare genes such as acpXL, cgs, fabZ, htrB, kdsA, kdsB, and pgm were only detected in 2% of isolates.
+
+This pattern highlights a highly conserved virulence core across isolates, coupled with a variable accessory gene set that may contribute to differences in virulence potential.
+
+| Number of Samples | % of Samples | Genes                                |
+| ----------------- | ------------ | -------------------------------------|
+| 50                | 100.00%      | actA, bsh, clpC, clpE, clpP, hly, lap, lapB, lntA, lpeA, lplA1, lspA, mpl, oatA, pdgA, plcA, plcB, prsA2, vip |
+| 49                | 98.00%       | fbpA, hpt, iap/cwhA, prfA                                                                                     |
+| 48                | 96.00%       | inlA, inlC, inlK                                                                                              |
+| 44                | 88.00%       | inlB                                                                                                          |
+| 42                | 84.00%       | gtcA                                                                                                          |
+| 41                | 82.00%       | llsA                                                                                                          |
+| 35                | 70.00%       | llsG                                                                                                          |
+| 30                | 60.00%       | llsX                                                                                                          |
+| 28                | 56.00%       | llsH                                                                                                          |
+| 27                | 54.00%       | inlF                                                                                                          |
+| 22                | 44.00%       | llsY                                                                                                          |
+| 18                | 36.00%       | llsB                                                                                                          |
+| 16                | 32.00%       | llsD                                                                                                          |
+| 11                | 22.00%       | llsP                                                                                                          |
+| 1                 | 2.00%        | acpXL, cgs, fabZ, htrB, kdsA, kdsB, pgm                                                                       |
+
 
 
 # Public Health Discussion
@@ -598,7 +604,3 @@ Given the universal resistance to fosfomycin, alternative agents should be consi
 While the BLAST-based species identification reliably classified the majority of isolates as Listeria monocytogenes (e-value 0.0), using only the longest contig and limiting BLAST searches to 1,000 bp may constrain the resolution of species detection. This approach was chosen to balance processing time with accuracy, as the high-confidence e-values suggest correct classification. Future analyses could employ consensus-based methods using multiple contigs, additional marker genes, or alternative databases to further validate species identification and detect potential co-infections or mixed samples.
 
 Similarly, the AMR gene analysis relies on assembled contigs and sequence-based detection; while these results provide a strong preliminary overview, sequencing or assembly errors could influence the identification of resistance determinants. Incorporating phenotypic validation (e.g., susceptibility testing) and expanding the dataset would strengthen the findings and confirm the functional relevance of the detected genes. Overall, these steps would improve confidence in both species identification and AMR profiling while allowing for more robust interpretation in a public health context.
-
-# Professional Profile
-* Github: https://github.com/calicac001
-* LinkedIn: www.linkedin.com/in/chloe-nichole-calica-3abb18262
