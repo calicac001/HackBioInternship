@@ -146,7 +146,7 @@ Overall, this initial QC show issues that are typical of raw reads. The next sec
 
 
 ### Trimming
-As shown on the MultiQC report from the previous section, out dataset contains a lot of issues typically observed in raw reads. In order to improve its quality, trimming is performed using FastP.
+As shown on the MultiQC report from the previous section, the dataset contains a lot of issues typically observed in raw reads. In order to improve its quality, trimming is performed using FastP.
 
 > trim.sh
 ```
