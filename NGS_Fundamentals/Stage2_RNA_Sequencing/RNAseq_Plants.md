@@ -195,7 +195,7 @@ Although the datasets were renamed for easier identification, a metadata file wa
 |uvc_3|uvc_treatment|
 
 ### Performing DESeq2
-Following read alignment and transcript counting, the gene-level count data were imported into R for downstream analysis. Differential expression was carried out using DESeq2, which models RNA-seq count data while accounting for differences in sequencing depth and variability across samples. Experimental conditions from the metadata file were incorporated into the model, allowing for accurate identification of genes with significant expression changes between sample groups.
+Following read alignment and transcript counting, the gene-level count data were imported into R for downstream analysis. Differential expression was carried out using DESeq2, which models RNA-seq count data while accounting for differences in sequencing depth and variability across samples. Experimental conditions from the metadata file were incorporated into the model, allowing for accurate identification of genes with significant expression changes between sample groups. 
 
 > a_thaliana_dea.R
 ```
@@ -277,13 +277,48 @@ write.csv(raw_counts, 'result/raw_counts.csv')
 ```
 
 ### Functional Enrichment
+Differentially expressed genes from the RNA-seq analysis were analyzed using [ShinyGO v0.85](https://bioinformatics.sdstate.edu/go/) to identify enriched KEGG pathways. Significantly enriched pathways were selected based on an FDR-adjusted p-value cutoff of 0.05. Key statistics such as the number of genes involved, fold enrichment, and pathway coverage were recorded.
 
 # Results
+To understand the transcriptional changes captured by the RNA-seq dataset, we first identified differentially expressed genes (DEGs) between the experimental conditions. These DEGs were then further analyzed to uncover biological pathways and processes that are significantly affected, providing insight into the molecular mechanisms underlying the observed changes.
+
 ## Differentially Expressed Genes
+Analysis of the RNA-seq dataset identified a total of 2,659 differentially expressed genes, of which 1,858 were upregulated and 801 were downregulated under the experimental conditions. The most significant DEGs were predominantly upregulated and included genes involved in transcription regulation, stress response, and secondary metabolism. Notably, the top 15 DEGs (Table 2) feature WRKY33 and WRKY40, key transcription factors in plant stress signaling, as well as genes encoding FAD-binding Berberine family proteins, cytochrome P450s, uridine diphosphate glycosyltransferases, and glutathione S-transferases, reflecting potential roles in defense and metabolic processes. Several highly upregulated genes remain uncharacterized, suggesting areas for future functional investigation.
+_Note: A table of the top 100 DEGs can be found [here](result/top100deg.md) as a markdown table while all annotated DEGs can be found in this [csv file](result/degs.csv)._
+
+**Table 2. Top 15 Differentially Expressed Genes for the _A. thaliana_ dataset**
+| Ensembl Gene ID | Up/Down Regulated | Adjusted P-value | Symbol    | Description                                                                 |
+|-----------------|-------------------|------------------|----------|-----------------------------------------------------------------------------|
+| AT4G20830       | Up                | 1.9528E-220      | AT4G20830| FAD-binding Berberine family protein                                        |
+| AT2G38470       | Up                | 8.6855E-192      | WRKY33   | WRKY DNA-binding protein 33                                                 |
+| AT4G20835       | Up                | 2.0983E-191      | AT4G20835| Uncharacterized protein                                                     |
+| AT3G26830       | Up                | 1.6487E-186      | PAD3     | Cytochrome P450 superfamily protein                                         |
+| AT1G05680       | Up                | 2.7223E-163      | UGT74E2  | Uridine diphosphate glycosyltransferase 74E2                                |
+| AT2G41105       | Up                | 4.2769E-157      | AT2G41105| Uncharacterized protein                                                     |
+| AT2G18193       | Up                | 1.0317E-155      | AT2G18193| P-loop containing nucleoside triphosphate hydrolases superfamily protein    |
+| AT4G02380       | Up                | 9.0478E-147      | SAG21    | Senescence-associated 21                                                    |
+| AT1G19180       | Up                | 4.1741E-144      | JAZ1     | Jasmonate-zim-domain protein 1                                              |
+| AT2G47000       | Up                | 1.8222E-143      | ABCB4    | ATP binding cassette subfamily B4                                           |
+| AT2G41100       | Up                | 4.4672E-133      | TCH3     | Calcium-binding EF hand family protein                                      |
+| AT1G72520       | Up                | 1.7717E-129      | LOX4     | PLAT/LH2 domain-containing lipoxygenase family protein                      |
+| AT1G02930       | Up                | 3.2366E-124      | GSTF6    | Glutathione S-transferase 6                                                 |
+| AT3G63380       | Up                | 7.5781E-121      | AT3G63380| ATPase E1-E2 type family protein / haloacid dehalogenase-like hydrolase fam |
+| AT1G80840       | Up                | 3.9099E-119      | WRKY40   | WRKY DNA-binding protein 40                                                 |
+
 ## Enriched Pathways
+KEGG pathway enrichment analysis revealed several pathways significantly overrepresented among the differentially expressed genes (Table X). Notably, genes involved in photosynthesis-antenna proteins (FDR = 4.9 × 10⁻², fold enrichment = 3.6), phenylalanine, tyrosine, and tryptophan biosynthesis (FDR = 2.0 × 10⁻³, fold enrichment = 3.1), and plant-pathogen interaction (FDR = 3.1 × 10⁻¹⁰, fold enrichment = 2.7) were enriched. Additional enriched pathways included glutathione metabolism and MAPK signaling in plants, indicating potential stress response and defense mechanisms captured by the dataset.
+
+**Table 3. Enriched Pathways for the _A. thaliana_ dataset**
+| Enrichment FDR | nGenes | Pathway Genes | Fold Enrichment | Pathways                                    |
+|----------------|--------|---------------|----------------|---------------------------------------------|
+| 4.9E-02        | 7      | 22            | 3.6            | Photosynthesis-antenna proteins              |
+| 2.0E-03        | 16     | 56            | 3.1            | Phenylalanine tyrosine and tryptophan biosynthesis |
+| 3.1E-10        | 56     | 216           | 2.7            | Plant-pathogen interaction                   |
+| 1.5E-02        | 21     | 102           | 2.2            | Glutathione metabolism                       |
+| 3.3E-03        | 29     | 144           | 2.1            | MAPK signaling pathway-plant                 |
+
 
 # Discussion
+The differential expression analysis revealed a predominance of upregulated genes in response to UV treatment in the vasculature, suggesting an active transcriptional response to stress. Many of the top DEGs, including **WRKY33, WRKY40, PAD3, and LOX4**, are known regulators of stress signaling and defense responses, consistent with prior observations that vascular tissues mount distinct transcriptional programs under abiotic stresses (Berkowitz et al., 2021). The KEGG pathway enrichment analysis further supports this, highlighting overrepresented pathways such as **phenylalanine, tyrosine, and tryptophan biosynthesis**, **plant-pathogen interactions**, and **MAPK signaling**, which are linked to secondary metabolism, reactive oxygen species signaling, and defense activation. These findings suggest that UV stress in the vasculature triggers both protective metabolic responses and signaling cascades that may coordinate stress adaptation, aligning with the tissue-specific responses previously described in Arabidopsis leaves. The presence of uncharacterized yet highly upregulated genes indicates that additional, potentially novel, components of the UV stress response remain to be explored in the vasculature.
 
-# Professional Profile
-* Github: https://github.com/calicac001/HackBioInternship
-* LinkedIn: www.linkedin.com/in/chloe-nichole-calica-3abb18262
+While our analysis identifies a set of differentially expressed genes and enriched pathways in response to UV stress in the vasculature, these findings should be interpreted with some caution. Validation through independent experiments, such as qRT-PCR or additional RNA-seq datasets, would strengthen the reliability of the conclusions. Gene expression may also be influenced by other biological or environmental factors, including circadian rhythms or developmental stage, which could act as confounders. Furthermore, while the thresholds used for defining DEGs (log2 fold change > 2, adjusted p-value < 0.05) prioritize highly responsive genes, they may exclude genes with smaller but biologically relevant changes. Finally, the biological significance of enriched pathways could be explored more comprehensively through cross-referencing with literature and other functional databases, helping to confirm that the observed transcriptional responses are specifically linked to UV stress.
