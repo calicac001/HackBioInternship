@@ -12,7 +12,8 @@ library(pheatmap)
 
 # Files
 at_count <- read.delim('data/counts.txt', header = T)
-at_meta <- read.delim('data/metadata.tsv', header = T, stringsAsFactors = T)
+at_meta <- read.delim('data/metadata.tsv', header = T)
+at_meta$condition <- as.factor(at_meta$condition)
 
 # Keep only the count data
 raw_counts <- at_count[, at_meta$sample]
@@ -24,16 +25,15 @@ dds <- DESeqDataSetFromMatrix(countData = raw_counts,
                               design = ~condition)
 
 # Perform DEA
-dds <- DeSeq(dds)
+dds <- DESeq(dds)
 dea_results <- results(dds)
 
 # Remove those with no pval then look at pval distribution
-plot(density(x = na.omit(dea_results$pvalue)))
+plot(density(x = na.omit(dea_results$pvalue)), main="")
 
 # Plot DE genes
 plot(x = dea_results$log2FoldChange, 
      y = -log10(dea_results$padj),
-     cex = 0.25,
      pch = 19, 
      col = 'grey',
      ylim = c(0,20),
@@ -46,7 +46,6 @@ abline(v = c(-2, 2), h = -log10(0.05), lwd = 0.5, lty = 2)
 upregulated <- subset(dea_results, padj < 0.05 & log2FoldChange > 2)
 points(upregulated$log2FoldChange,
        y = -log10(upregulated$padj), 
-       cex = 0.35,
        pch = 19,
        col = 'salmon')
 
@@ -54,12 +53,10 @@ points(upregulated$log2FoldChange,
 downregulated <- subset(dea_results, padj < 0.05 & log2FoldChange < -2)
 points(downregulated$log2FoldChange,
        y = -log10(downregulated$padj), 
-       cex = 0.35,
        pch = 19,
        col = 'lightblue')
 
-mtext('A simple volcano')
-#we can merge the two to do a clean and less memory efficient heatmap
+# Merge genes in one dataset
 degs <- rbind(raw_counts[rownames(upregulated),], 
               raw_counts[rownames(downregulated),])
 pheatmap(degs, 
@@ -69,7 +66,6 @@ pheatmap(degs,
          scale = 'row',
          show_colnames = T)
 
-#what are the genes that are upregulated
 rownames(upregulated)
 rownames(downregulated)
 
